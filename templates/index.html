@@ -1,0 +1,81 @@
+<html>
+
+<head>
+	<title>Zadanka</title>		
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<body>	
+<center><span class="badge badge-info">{{ info2 }}</span></center>
+<table id="table-tasks" class="table table-hover table-dark table-sm">
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">Opis</th>
+			<th scope="col">Data dodania</th>
+			<th scope="col">Ostatnia aktualizacja</th>
+			<th scope="col">Status</th>
+			<th scope="col">Akcja</th>
+		</tr>
+	</thead>
+	{% for row in rows %}	
+	<form method='post' action='index.php'>			
+		<tr id="task_{{ row.ID }}">
+		{% if row.Status == "undone"  %}
+		
+			<td>{{ row.ID }}</td>				
+			<td>{{ row.Description }}</td>
+			<td>{{ row.InputDate }}</td>
+			<td>{{ row.LastUpdate }}</td>
+			<td>{{ row.Status }}</td>
+			<td><button class="btn btn-outline-success btn-sm" value={{ row.ID }} name="Done">Zrobione</button>
+		
+		{% elseif row.Status == "done" %}				
+			<td class="table-success">{{ row.ID }}</td>
+			<td class="table-success">{{ row.Description }}</td>
+			<td class="table-success">{{ row.InputDate }}</td>
+			<td class="table-success">{{ row.LastUpdate }}</td>
+			<td class="table-success">{{ row.Status }}</td>
+			<td class="table-success"><button class="btn btn-outline-light text-dark btn-sm" value={{ row.ID }} name="Undone">Niezrobione</button>	
+		{% endif %}		
+		<!-- <button class="btn btn-outline-danger btn-sm" value={{ row.ID }} name="Del">Usuń</button> !-->
+			
+	</form>	
+	<button name="delete" onClick="del({{ row.ID }})">Usuń</button>
+        <script>
+        	function del(id) 
+        	{
+			var queryString;
+			queryString ='id='+id;					 
+			jQuery.ajax({
+			url: "delete_ajax.php",
+			data:queryString,
+			type: "POST",
+			success:function(data){	
+			$('#task_'+id).fadeOut();											
+			},});}
+        </script>
+				</td>					
+			</tr>				
+	{% endfor %}
+	<tr>
+		<form method='post' action='' class="form-inline">
+			<div class="form-group">
+				<td></td>
+				<td>
+					<input class="form-control" type="text" name="Description"><br>
+					<span class="badge badge-danger">{{ info }}</span>
+				</td>
+				<td><button class="btn btn-secondary" name="Add">Dodaj nowe zadanie</button></td><td></td><td></td><td></td>
+			</div>		
+		</form>
+	</tr>
+</table>
+
+</body>
+
+</html>
+

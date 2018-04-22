@@ -1,0 +1,23 @@
+body, html
+{
+   background: url("images/bg.png") no-repeat fixed;
+   color: green;
+   margin: 0;	   
+   position: relative;
+   height: 100%;   
+}
+.btn-sm
+{
+	width: 100px;
+}
+.table
+{
+	position: absolute;
+	margin-top: 50px;	
+	background-color: lightgray;
+}
+td
+{
+	max-width: 550px;
+}
+
